@@ -11,27 +11,79 @@
       <div class="calculator">
         <input type="text" id="display" placeholder="0" />
         <div class="button-grid">
-          <button class="first-row-button">AC</button>
+          <button class="first-row-button" onclick="resetCalculator()">
+            AC
+          </button>
           <button class="first-row-button">+/-</button>
           <button class="first-row-button">%</button>
           <button class="second-column-button">/</button>
-          <button class="rest">7</button>
-          <button class="rest">8</button>
-          <button class="rest">9</button>
+          <button class="rest" onclick="appendToDisplay('7')">7</button>
+          <button class="rest" onclick="appendToDisplay('8')">8</button>
+          <button class="rest" onclick="appendToDisplay('9')">9</button>
           <button class="second-column-button">*</button>
-          <button class="rest">4</button>
-          <button class="rest">5</button>
-          <button class="rest">6</button>
+          <button class="rest" onclick="appendToDisplay('4')">4</button>
+          <button class="rest" onclick="appendToDisplay('5')">5</button>
+          <button class="rest" onclick="appendToDisplay('6')">6</button>
           <button class="second-column-button">-</button>
-          <button class="rest">1</button>
-          <button class="rest">2</button>
-          <button class="rest">3</button>
-          <button class="second-column-button">+</button>
-          <button class="rest">0</button>
-          <button class="rest">.</button>
-          <button class="rest">=</button>
+          <button class="rest" onclick="appendToDisplay('1')">1</button>
+          <button class="rest" onclick="appendToDisplay('2')">2</button>
+          <button class="rest" onclick="appendToDisplay('3')">3</button>
+          <button class="second-column-button" onclick="handleAddition()">
+            +
+          </button>
+          <button class="rest" onclick="appendToDisplay('0')">0</button>
+          <button class="rest" onclick="appendToDisplay('.')">.</button>
+          <button class="rest" onclick="calculateResult()">=</button>
         </div>
       </div>
     </div>
+    <script>
+      let displayValue = ""; // Store the display value
+      let currentSum = 0; // Store the current sum
+      let additionStarted = false;
+      let calculationPerformed = false; // flag to track if calculation has been performed
+
+      function appendToDisplay(value) {
+        if (!calculationPerformed) {
+          displayValue += value; // Append the pressed value to the stored display value
+          document.getElementById("display").value = displayValue; // Update the displayed value
+        }
+      }
+
+      function calculateResult() {
+        if (displayValue !== "") {
+          const inputValue = parseFloat(displayValue) || 0;
+
+          if (additionStarted) {
+            currentSum += inputValue;
+            additionStarted = false;
+          }
+          displayValue = "";
+          document.getElementById("display").value = currentSum;
+          calculationPerformed = true; // Set flag to indicate calculation has been performed
+        }
+      }
+      function handleAddition() {
+        if (!calculationPerformed && displayValue !== "") {
+          const inputValue = parseFloat(displayValue) || 0;
+
+          // if (!additionStarted) {
+          //   currentSum = inputValue;
+          //   additionStarted = true;
+          // } else {
+          currentSum += inputValue;
+          // }
+          displayValue = "";
+          document.getElementById("display").value = currentSum;
+          additionStarted = true;
+        }
+      }
+      function resetCalculator() {
+        displayValue = "";
+        currentSum = 0;
+        document.getElementById("display").value = "0";
+        calculationPerformed = false; //reset the calculation flag
+      }
+    </script>
   </body>
 </html>
